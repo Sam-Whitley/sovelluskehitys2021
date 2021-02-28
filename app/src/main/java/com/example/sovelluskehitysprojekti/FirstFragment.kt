@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 
 
 //Benbis :DD terveisin olli
+//ei vittu :DDD
 class FirstFragment : Fragment() {
 
     override fun onCreateView(
