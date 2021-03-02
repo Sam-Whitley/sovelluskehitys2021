@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/haku"
+        android:title="Haku"/>
+    <item
+        android:id="@+id/tarkka"
+        android:title="Tarkempi Haku"/>
+    <item
+        android:id="@+id/historia"
+        android:title="Historia"/>
+</menu>
