@@ -7,6 +7,7 @@
     tools:context=".MainActivity2">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -17,7 +18,7 @@
             android:layout_marginStart="120dp"
             android:layout_marginTop="356dp"
             android:layout_marginEnd="234dp"
-            android:text="Tänne tulee sitten lista kirjoista haun jälkeen"
+            tools:text="Tänne tulee sitten lista kirjoista haun jälkeen"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.242"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,5 +38,16 @@
             app:popupTheme="@style/Theme.SovelluskehitysProjekti.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@+id/constraintLayout2"
+        app:layout_anchorGravity="center"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

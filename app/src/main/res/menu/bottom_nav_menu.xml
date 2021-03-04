@@ -2,11 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/haku"
+        android:icon="@drawable/ic_baseline_search_24"
         android:title="Haku"/>
     <item
         android:id="@+id/tarkka"
+        android:icon="@drawable/ic_baseline_search_24"
         android:title="Tarkempi Haku"/>
     <item
         android:id="@+id/historia"
+        android:icon="@drawable/ic_baseline_history_24"
         android:title="Historia"/>
 </menu>
