@@ -17,7 +17,7 @@ class MyAdapter(private val records: RecordList) : RecyclerView.Adapter<MyAdapte
     override fun getItemCount() = records.resultCount
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title.text = records.toString()
+        holder.title.text = records.records[position].title
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

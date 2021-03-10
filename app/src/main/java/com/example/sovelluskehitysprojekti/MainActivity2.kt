@@ -2,6 +2,8 @@ package com.example.sovelluskehitysprojekti
 
 import android.os.Bundle
 import android.util.Log.d
+import android.view.View
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,18 +19,19 @@ const val BASE_URL = "https://api.finna.fi"
 
 class MainActivity2 : AppCompatActivity() {
 
-    //private var TAG = "MainActivity2"
+    private var TAG = "Test"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
         setSupportActionBar(findViewById(R.id.toolbar))
         getCurrentData()
-        //val progressBar = findViewById<ProgressBar>(R.id.progressBar)
-        //progressBar.visibility = View.VISIBLE
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        progressBar.visibility = View.VISIBLE
     }
 
     private fun getCurrentData() {
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -38,34 +41,16 @@ class MainActivity2 : AppCompatActivity() {
 
         api.getAuthorRecords().enqueue(object : Callback<RecordList>{
             override  fun onResponse(call: Call<RecordList>, response: Response<RecordList>) {
-                //d("Test", "onResponse: ${response.body()!!} ")
+                d(TAG, "onResponse: ${response.body()!!}")
                 response.body()?.let { showData(it) }
+                progressBar.visibility = View.INVISIBLE
             }
 
             override  fun onFailure(call: Call<RecordList>, t: Throwable) {
-                d("Test", "onFailure: $t")
+                d(TAG, "onFailure: $t")
+                progressBar.visibility = View.INVISIBLE
             }
         })
-
-            /*GlobalScope.launch(Dispatchers.IO) {
-                val response = retrofit.getAuthorRecords().awaitResponse()
-                if (response.isSuccessful) {
-                    val data = response.body()!! //DEBUG POINT
-
-                    val stringBuilder = "Title: " +
-                            data.records[1].title + "\nAuthor: " +
-                            data.records[1].nonPresenterAuthors[0].name
-
-                    Log.d(TAG, data.toString())
-
-                    withContext(Dispatchers.Main){
-                        val textView = findViewById<TextView>(R.id.textView)
-                        textView.text = stringBuilder
-                        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
-                        progressBar.visibility = View.INVISIBLE
-                    }
-                }
-            }*/
     }
 
     private fun showData(records: RecordList) {

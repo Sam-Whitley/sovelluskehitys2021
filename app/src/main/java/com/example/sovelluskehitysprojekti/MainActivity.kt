@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         val hae = findViewById<Button>(R.id.hae)
-
         hae.setOnClickListener {
             val intent = Intent(this@MainActivity, MainActivity2::class.java)
             startActivity(intent)
