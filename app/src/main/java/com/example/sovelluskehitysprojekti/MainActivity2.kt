@@ -15,6 +15,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 // https://www.youtube.com/watch?v=-dAr6VnmomM&ab_channel=SimplifiedCoding
 // (Project/Git/Add, Project/Git/Commit Directory..., then Project/Git/Repository/Push)
 
+// Finna API Docs
+// https://www.kiwi.fi/pages/viewpage.action?pageId=53839221
+
 const val BASE_URL = "https://api.finna.fi"
 
 class MainActivity2 : AppCompatActivity() {
@@ -54,7 +57,7 @@ class MainActivity2 : AppCompatActivity() {
     }
 
     private fun showData(records: RecordList) {
-        var recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity2)
             adapter = MyAdapter(records)
