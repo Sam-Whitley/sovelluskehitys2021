@@ -1,0 +1,77 @@
+Index: app/src/main/java/com/example/sovelluskehitysprojekti/ApiRequests.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.sovelluskehitysprojekti\r\n\r\nimport com.example.sovelluskehitysprojekti.api.*\r\nimport retrofit2.Call\r\nimport retrofit2.http.GET\r\n\r\ninterface ApiRequests {\r\n\r\n    @GET(\"/v1/search?lookfor=sibelius&type=Author\")\r\n    fun getAuthorRecords(): Call<RecordList>\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/sovelluskehitysprojekti/ApiRequests.kt	(revision ac28846191faeb8106782f4ec0e291f3e32bcba5)
++++ app/src/main/java/com/example/sovelluskehitysprojekti/ApiRequests.kt	(date 1615299130850)
+@@ -1,11 +1,18 @@
+ package com.example.sovelluskehitysprojekti
+ 
++import androidx.appcompat.app.AppCompatActivity
+ import com.example.sovelluskehitysprojekti.api.*
+ import retrofit2.Call
+ import retrofit2.http.GET
+ 
++const val eka = "/v1/search?lookfor="
++const val toka = "sibelius"
++const val kolmas = "&type=Author"
++const val final = eka+ toka+ kolmas
++
+ interface ApiRequests {
+ 
+-    @GET("/v1/search?lookfor=sibelius&type=Author")
++    @GET(final)
+     fun getAuthorRecords(): Call<RecordList>
++
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/example/sovelluskehitysprojekti/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.sovelluskehitysprojekti\r\n\r\nimport android.content.Intent\r\nimport android.os.Bundle\r\nimport com.google.android.material.floatingactionbutton.FloatingActionButton\r\nimport com.google.android.material.snackbar.Snackbar\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport android.view.Menu\r\nimport android.view.MenuItem\r\nimport android.widget.Button\r\nimport android.widget.EditText\r\n\r\nclass MainActivity : AppCompatActivity() {\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        setContentView(R.layout.activity_main)\r\n        setSupportActionBar(findViewById(R.id.toolbar))\r\n\r\n        val hae = findViewById<Button>(R.id.hae)\r\n\r\n        hae.setOnClickListener {\r\n            val intent = Intent(this@MainActivity, MainActivity2::class.java)\r\n            startActivity(intent)\r\n        }\r\n    }\r\n\r\n    override fun onCreateOptionsMenu(menu: Menu): Boolean {\r\n        // Inflate the menu; this adds items to the action bar if it is present.\r\n        menuInflater.inflate(R.menu.menu_main, menu)\r\n        return true\r\n    }\r\n\r\n    override fun onOptionsItemSelected(item: MenuItem): Boolean {\r\n        // Handle action bar item clicks here. The action bar will\r\n        // automatically handle clicks on the Home/Up button, so long\r\n        // as you specify a parent activity in AndroidManifest.xml.\r\n        return when (item.itemId) {\r\n            R.id.action_settings -> true\r\n            else -> super.onOptionsItemSelected(item)\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/sovelluskehitysprojekti/MainActivity.kt	(revision ac28846191faeb8106782f4ec0e291f3e32bcba5)
++++ app/src/main/java/com/example/sovelluskehitysprojekti/MainActivity.kt	(date 1615371706757)
+@@ -9,17 +9,29 @@
+ import android.view.MenuItem
+ import android.widget.Button
+ import android.widget.EditText
++import com.google.android.material.bottomnavigation.BottomNavigationItemView
++import com.google.android.material.bottomnavigation.BottomNavigationMenu
+ 
+ class MainActivity : AppCompatActivity() {
+ 
++    //Täällä on kaikkea kivaa toivon että en riko samin juttuja lalalalala
++
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+         setContentView(R.layout.activity_main)
+         setSupportActionBar(findViewById(R.id.toolbar))
+ 
++
++        //Haun tallennus
++        val pref = getSharedPreferences("Hakusanat", MODE_PRIVATE)
++        val editor = pref.edit()
++
+         val hae = findViewById<Button>(R.id.hae)
+ 
+         hae.setOnClickListener {
++            val kirjailija = hae.text
++            editor.putString("Kirjailija", kirjailija as String?)
++            editor.commit()
+             val intent = Intent(this@MainActivity, MainActivity2::class.java)
+             startActivity(intent)
+         }
+@@ -37,6 +49,7 @@
+         // as you specify a parent activity in AndroidManifest.xml.
+         return when (item.itemId) {
+             R.id.action_settings -> true
++            R.id.haku -> true
+             else -> super.onOptionsItemSelected(item)
+         }
+     }
