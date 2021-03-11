@@ -9,6 +9,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
+import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,8 +20,10 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         val hae = findViewById<Button>(R.id.hae)
+        val searchTest = findViewById<TextView>(R.id.editTextTextPersonName2)
         hae.setOnClickListener {
             val intent = Intent(this@MainActivity, MainActivity2::class.java)
+            intent.putExtra("name", searchTest.text.toString())
             startActivity(intent)
         }
     }

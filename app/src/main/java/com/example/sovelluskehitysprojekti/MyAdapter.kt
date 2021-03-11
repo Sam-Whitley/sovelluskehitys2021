@@ -17,7 +17,6 @@ class MyAdapter(private val records: RecordList) : RecyclerView.Adapter<MyAdapte
 
     override fun getItemCount() = records.records.size
 
-    //resultCount, buildings, formats, nonPresenterAuthors/name: "Sibelius", Suuret säveltäjät title
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = records.records[position].title
         holder.format.text = records.records[position].formats[0].translated

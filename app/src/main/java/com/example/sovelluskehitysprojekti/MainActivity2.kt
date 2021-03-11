@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sovelluskehitysprojekti.api.RecordList
-import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.*
 
 // How to Push Android Studio Project to GitHub?
 // https://www.youtube.com/watch?v=-dAr6VnmomM&ab_channel=SimplifiedCoding
@@ -22,15 +22,15 @@ const val BASE_URL = "https://api.finna.fi"
 
 class MainActivity2 : AppCompatActivity() {
 
-    private var TAG = "Test"
+    private var TAG = "TEST"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
         setSupportActionBar(findViewById(R.id.toolbar))
-        getCurrentData()
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         progressBar.visibility = View.VISIBLE
+        getCurrentData()
     }
 
     private fun getCurrentData() {
@@ -40,9 +40,10 @@ class MainActivity2 : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+        val name = intent.getStringExtra("name")
         val api = retrofit.create(ApiRequests::class.java)
 
-        api.getAuthorRecords().enqueue(object : Callback<RecordList>{
+        api.getAuthorRecords(lookfor = name, type = "Author").enqueue(object : Callback<RecordList>{
             override  fun onResponse(call: Call<RecordList>, response: Response<RecordList>) {
                 d(TAG, "onResponse: ${response.body()!!}")
                 response.body()?.let { showData(it) }
