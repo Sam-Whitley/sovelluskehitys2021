@@ -1,0 +1,112 @@
+Index: app/src/main/java/com/example/sovelluskehitysprojekti/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.sovelluskehitysprojekti\r\n\r\nimport android.content.Intent\r\nimport android.os.Bundle\r\nimport com.google.android.material.floatingactionbutton.FloatingActionButton\r\nimport com.google.android.material.snackbar.Snackbar\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport android.view.Menu\r\nimport android.view.MenuItem\r\nimport android.widget.Button\r\nimport android.widget.EditText\r\nimport android.widget.TextView\r\nimport org.w3c.dom.Text\r\n\r\nclass MainActivity : AppCompatActivity() {\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        setContentView(R.layout.activity_main)\r\n        setSupportActionBar(findViewById(R.id.toolbar))\r\n\r\n        val hae = findViewById<Button>(R.id.hae)\r\n        val searchTest = findViewById<TextView>(R.id.editTextTextPersonName2)\r\n        hae.setOnClickListener {\r\n            val intent = Intent(this@MainActivity, MainActivity2::class.java)\r\n            intent.putExtra(\"name\", searchTest.text.toString())\r\n            startActivity(intent)\r\n        }\r\n    }\r\n\r\n    override fun onCreateOptionsMenu(menu: Menu): Boolean {\r\n        // Inflate the menu; this adds items to the action bar if it is present.\r\n        menuInflater.inflate(R.menu.menu_main, menu)\r\n        return true\r\n    }\r\n\r\n    override fun onOptionsItemSelected(item: MenuItem): Boolean {\r\n        // Handle action bar item clicks here. The action bar will\r\n        // automatically handle clicks on the Home/Up button, so long\r\n        // as you specify a parent activity in AndroidManifest.xml.\r\n        return when (item.itemId) {\r\n            R.id.action_settings -> true\r\n            else -> super.onOptionsItemSelected(item)\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/sovelluskehitysprojekti/MainActivity.kt	(revision ca2fc5fbbad7ae52a46fc4a7f9a934e5e61eca94)
++++ app/src/main/java/com/example/sovelluskehitysprojekti/MainActivity.kt	(date 1615473879625)
+@@ -2,6 +2,8 @@
+ 
+ import android.content.Intent
+ import android.os.Bundle
++import android.text.Editable
++import android.text.TextWatcher
+ import com.google.android.material.floatingactionbutton.FloatingActionButton
+ import com.google.android.material.snackbar.Snackbar
+ import androidx.appcompat.app.AppCompatActivity
+@@ -14,16 +16,34 @@
+ 
+ class MainActivity : AppCompatActivity() {
+ 
++    lateinit var hae: Button
++    lateinit var search: TextView
++
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+         setContentView(R.layout.activity_main)
+         setSupportActionBar(findViewById(R.id.toolbar))
+ 
+-        val hae = findViewById<Button>(R.id.hae)
+-        val searchTest = findViewById<TextView>(R.id.editTextTextPersonName2)
++        hae = findViewById(R.id.hae)
++        search = findViewById(R.id.editTextTextPersonName2)
++
++        search.addTextChangedListener(object: TextWatcher
++        {
++            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
++            }
++
++            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
++                hae.isEnabled = true
++            }
++
++            override fun afterTextChanged(s: Editable?) {
++            }
++        }
++        )
++
+         hae.setOnClickListener {
+             val intent = Intent(this@MainActivity, MainActivity2::class.java)
+-            intent.putExtra("name", searchTest.text.toString())
++            intent.putExtra("name", search.text.toString())
+             startActivity(intent)
+         }
+     }
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".MainActivity\">\r\n\r\n    <androidx.constraintlayout.widget.ConstraintLayout\r\n        android:id=\"@+id/constraintLayout\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\">\r\n\r\n        <EditText\r\n            android:id=\"@+id/editTextTextPersonName2\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginTop=\"248dp\"\r\n            android:ems=\"10\"\r\n            android:hint=\"Hae kirjailijan teoksia\"\r\n            android:inputType=\"textPersonName\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"0.497\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n        <com.google.android.material.bottomnavigation.BottomNavigationView\r\n            android:id=\"@+id/bottomNavigationView\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"1.0\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:menu=\"@menu/bottom_nav_menu\" />\r\n\r\n        <ImageView\r\n            android:id=\"@+id/imageView2\"\r\n            android:layout_width=\"336dp\"\r\n            android:layout_height=\"193dp\"\r\n            android:layout_marginStart=\"37dp\"\r\n            android:layout_marginTop=\"55dp\"\r\n            android:layout_marginEnd=\"38dp\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\"\r\n            app:srcCompat=\"@drawable/finna_logo\" />\r\n\r\n    </androidx.constraintlayout.widget.ConstraintLayout>\r\n\r\n    <com.google.android.material.appbar.AppBarLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:theme=\"@style/Theme.SovelluskehitysProjekti.AppBarOverlay\">\r\n\r\n        <androidx.appcompat.widget.Toolbar\r\n            android:id=\"@+id/toolbar\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"?attr/actionBarSize\"\r\n            android:background=\"?attr/colorPrimary\"\r\n            app:popupTheme=\"@style/Theme.SovelluskehitysProjekti.PopupOverlay\" />\r\n\r\n    </com.google.android.material.appbar.AppBarLayout>\r\n\r\n    <Button\r\n        android:id=\"@+id/hae\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"36dp\"\r\n        android:text=\"Hae\"\r\n        app:layout_anchor=\"@+id/constraintLayout\"\r\n        app:layout_anchorGravity=\"center\" />\r\n\r\n\r\n</androidx.coordinatorlayout.widget.CoordinatorLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision ca2fc5fbbad7ae52a46fc4a7f9a934e5e61eca94)
++++ app/src/main/res/layout/activity_main.xml	(date 1615473487174)
+@@ -13,9 +13,11 @@
+ 
+         <EditText
+             android:id="@+id/editTextTextPersonName2"
+-            android:layout_width="wrap_content"
++            android:layout_width="0dp"
+             android:layout_height="wrap_content"
++            android:layout_marginStart="38dp"
+             android:layout_marginTop="248dp"
++            android:layout_marginEnd="38dp"
+             android:ems="10"
+             android:hint="Hae kirjailijan teoksia"
+             android:inputType="textPersonName"
+@@ -46,6 +48,17 @@
+             app:layout_constraintTop_toTopOf="parent"
+             app:srcCompat="@drawable/finna_logo" />
+ 
++        <Button
++            android:id="@+id/hae"
++            android:layout_width="191dp"
++            android:layout_height="54dp"
++            android:layout_marginBottom="296dp"
++            android:text="Hae"
++            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
++            app:layout_constraintEnd_toEndOf="parent"
++            app:layout_constraintStart_toStartOf="parent"
++            android:enabled="false"/>
++
+     </androidx.constraintlayout.widget.ConstraintLayout>
+ 
+     <com.google.android.material.appbar.AppBarLayout
+@@ -62,14 +75,5 @@
+ 
+     </com.google.android.material.appbar.AppBarLayout>
+ 
+-    <Button
+-        android:id="@+id/hae"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_marginTop="36dp"
+-        android:text="Hae"
+-        app:layout_anchor="@+id/constraintLayout"
+-        app:layout_anchorGravity="center" />
+-
+ 
+ </androidx.coordinatorlayout.widget.CoordinatorLayout>
+\ No newline at end of file

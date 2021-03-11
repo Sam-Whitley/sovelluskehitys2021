@@ -1,0 +1,66 @@
+Index: app/src/main/java/com/example/sovelluskehitysprojekti/MainActivity2.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.sovelluskehitysprojekti\r\n\r\nimport android.os.Bundle\r\nimport android.util.Log.d\r\nimport android.view.View\r\nimport android.widget.ProgressBar\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport androidx.recyclerview.widget.LinearLayoutManager\r\nimport androidx.recyclerview.widget.RecyclerView\r\nimport com.example.sovelluskehitysprojekti.api.RecordList\r\nimport retrofit2.converter.gson.GsonConverterFactory\r\nimport retrofit2.*\r\n\r\n// How to Push Android Studio Project to GitHub?\r\n// https://www.youtube.com/watch?v=-dAr6VnmomM&ab_channel=SimplifiedCoding\r\n// (Project/Git/Add, Project/Git/Commit Directory..., then Project/Git/Repository/Push)\r\n\r\n// Finna API Docs\r\n// https://www.kiwi.fi/pages/viewpage.action?pageId=53839221\r\n\r\nconst val BASE_URL = \"https://api.finna.fi\"\r\n\r\nclass MainActivity2 : AppCompatActivity() {\r\n\r\n    private var TAG = \"TEST\"\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        setContentView(R.layout.activity_main2)\r\n        setSupportActionBar(findViewById(R.id.toolbar))\r\n        val progressBar = findViewById<ProgressBar>(R.id.progressBar)\r\n        progressBar.visibility = View.VISIBLE\r\n        getCurrentData()\r\n    }\r\n\r\n    private fun getCurrentData() {\r\n        val progressBar = findViewById<ProgressBar>(R.id.progressBar)\r\n        val retrofit = Retrofit.Builder()\r\n            .baseUrl(BASE_URL)\r\n            .addConverterFactory(GsonConverterFactory.create())\r\n            .build()\r\n\r\n        val name = intent.getStringExtra(\"name\")\r\n        val api = retrofit.create(ApiRequests::class.java)\r\n\r\n        api.getAuthorRecords(lookfor = name, type = \"Author\").enqueue(object : Callback<RecordList>{\r\n            override  fun onResponse(call: Call<RecordList>, response: Response<RecordList>) {\r\n                d(TAG, \"onResponse: ${response.body()!!}\")\r\n                response.body()?.let { showData(it) }\r\n                progressBar.visibility = View.INVISIBLE\r\n            }\r\n\r\n            override  fun onFailure(call: Call<RecordList>, t: Throwable) {\r\n                d(TAG, \"onFailure: $t\")\r\n                progressBar.visibility = View.INVISIBLE\r\n            }\r\n        })\r\n    }\r\n\r\n    private fun showData(records: RecordList) {\r\n        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)\r\n        recyclerView.apply {\r\n            layoutManager = LinearLayoutManager(this@MainActivity2)\r\n            adapter = MyAdapter(records)\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/sovelluskehitysprojekti/MainActivity2.kt	(revision ca2fc5fbbad7ae52a46fc4a7f9a934e5e61eca94)
++++ app/src/main/java/com/example/sovelluskehitysprojekti/MainActivity2.kt	(date 1615475839480)
+@@ -29,6 +29,8 @@
+         setContentView(R.layout.activity_main2)
+         setSupportActionBar(findViewById(R.id.toolbar))
+         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
++        supportActionBar!!.setDisplayHomeAsUpEnabled(true);
++        supportActionBar!!.setDisplayShowHomeEnabled(true);
+         progressBar.visibility = View.VISIBLE
+         getCurrentData()
+     }
+@@ -43,7 +45,7 @@
+         val name = intent.getStringExtra("name")
+         val api = retrofit.create(ApiRequests::class.java)
+ 
+-        api.getAuthorRecords(lookfor = name, type = "Author").enqueue(object : Callback<RecordList>{
++        api.getAuthorRecords(lookfor = name, type = "Title").enqueue(object : Callback<RecordList>{
+             override  fun onResponse(call: Call<RecordList>, response: Response<RecordList>) {
+                 d(TAG, "onResponse: ${response.body()!!}")
+                 response.body()?.let { showData(it) }
+Index: app/src/main/java/com/example/sovelluskehitysprojekti/MyAdapter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.sovelluskehitysprojekti\r\n\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport android.widget.TextView\r\nimport androidx.recyclerview.widget.RecyclerView\r\nimport com.example.sovelluskehitysprojekti.api.*\r\nimport org.w3c.dom.Text\r\n\r\nclass MyAdapter(private val records: RecordList) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {\r\n\r\n    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {\r\n       val view = LayoutInflater.from(parent.context).inflate(R.layout.records_row, parent, false)\r\n        return ViewHolder(view)\r\n    }\r\n\r\n    override fun getItemCount() = records.records.size\r\n\r\n    override fun onBindViewHolder(holder: ViewHolder, position: Int) {\r\n        holder.title.text = records.records[position].title\r\n        holder.format.text = records.records[position].formats[0].translated\r\n        holder.author.text = records.records[position].nonPresenterAuthors[0].name\r\n        holder.building0.text = records.records[position].buildings[0].translated\r\n        holder.building1.text = records.records[position].buildings[1].translated\r\n    }\r\n\r\n    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {\r\n        val title: TextView = itemView.findViewById(R.id.recordTitle)\r\n        val format: TextView = itemView.findViewById(R.id.recordResultItemFormat)\r\n        val author: TextView = itemView.findViewById(R.id.recordAuthor)\r\n        val building0: TextView = itemView.findViewById(R.id.recordBuilding0)\r\n        val building1: TextView = itemView.findViewById(R.id.recordBuilding1)\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/sovelluskehitysprojekti/MyAdapter.kt	(revision ca2fc5fbbad7ae52a46fc4a7f9a934e5e61eca94)
++++ app/src/main/java/com/example/sovelluskehitysprojekti/MyAdapter.kt	(date 1615475839470)
+@@ -6,7 +6,6 @@
+ import android.widget.TextView
+ import androidx.recyclerview.widget.RecyclerView
+ import com.example.sovelluskehitysprojekti.api.*
+-import org.w3c.dom.Text
+ 
+ class MyAdapter(private val records: RecordList) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+ 
+Index: app/src/main/java/com/example/sovelluskehitysprojekti/api/Record.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.sovelluskehitysprojekti.api\r\n\r\ndata class Record(\r\n    val buildings: List<Building>,\r\n    val formats: List<Format>,\r\n    val id: String,\r\n    val images: List<Any>,\r\n    val languages: List<String>,\r\n    val nonPresenterAuthors: List<NonPresenterAuthor>,\r\n    val onlineUrls: List<Any>,\r\n    val presenters: Presenters,\r\n    val rating: Rating,\r\n    val series: List<Sery>,\r\n    val subjects: List<List<String>>,\r\n    val title: String\r\n)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/sovelluskehitysprojekti/api/Record.kt	(revision ca2fc5fbbad7ae52a46fc4a7f9a934e5e61eca94)
++++ app/src/main/java/com/example/sovelluskehitysprojekti/api/Record.kt	(date 1615475959318)
+@@ -8,9 +8,9 @@
+     val languages: List<String>,
+     val nonPresenterAuthors: List<NonPresenterAuthor>,
+     val onlineUrls: List<Any>,
+-    val presenters: Presenters,
++    //val presenters: Presenters,
+     val rating: Rating,
+-    val series: List<Sery>,
++    //val series: List<Sery>,
+     val subjects: List<List<String>>,
+     val title: String
+ )
+\ No newline at end of file

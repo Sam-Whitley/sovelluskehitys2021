@@ -2,6 +2,8 @@ package com.example.sovelluskehitysprojekti
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +14,9 @@ import android.widget.*
 import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var hae: Button
+    lateinit var search: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +45,26 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val hae = findViewById<Button>(R.id.hae)
-        val searchTest = findViewById<TextView>(R.id.editTextTextPersonName2)
+        hae = findViewById(R.id.hae)
+        search = findViewById(R.id.editTextTextPersonName2)
+
+        search.addTextChangedListener(object: TextWatcher
+        {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                hae.isEnabled = true
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        }
+        )
+
         hae.setOnClickListener {
             val intent = Intent(this@MainActivity, MainActivity2::class.java)
-            intent.putExtra("name", searchTest.text.toString())
+            intent.putExtra("name", search.text.toString())
             intent.putExtra("type", mita.text.toString())
             startActivity(intent)
         }
