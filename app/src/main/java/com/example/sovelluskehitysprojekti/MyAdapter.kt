@@ -22,7 +22,7 @@ class MyAdapter(private val records: RecordList) : RecyclerView.Adapter<MyAdapte
         holder.format.text = records.records[position].formats[0].translated
         holder.author.text = records.records[position].nonPresenterAuthors[0].name
         holder.building0.text = records.records[position].buildings[0].translated
-        holder.building1.text = records.records[position].buildings[1].translated
+       // holder.building1.text = records.records[position].buildings[1].translated
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

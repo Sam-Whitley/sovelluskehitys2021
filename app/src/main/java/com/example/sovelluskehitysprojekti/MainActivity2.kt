@@ -41,9 +41,10 @@ class MainActivity2 : AppCompatActivity() {
             .build()
 
         val name = intent.getStringExtra("name")
+        val type = intent.getStringExtra("type")
         val api = retrofit.create(ApiRequests::class.java)
 
-        api.getAuthorRecords(lookfor = name, type = "Author").enqueue(object : Callback<RecordList>{
+        api.getAuthorRecords(lookfor = name, type = type).enqueue(object : Callback<RecordList>{
             override  fun onResponse(call: Call<RecordList>, response: Response<RecordList>) {
                 d(TAG, "onResponse: ${response.body()!!}")
                 response.body()?.let { showData(it) }
