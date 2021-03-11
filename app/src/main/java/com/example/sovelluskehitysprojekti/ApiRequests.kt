@@ -5,6 +5,8 @@ import retrofit2.http.*
 import retrofit2.Call
 
 interface ApiRequests {
+    @GET("/v1/search?")
+    fun getRecords(): Call<RecordList>
     @GET("/v1/search")
     fun getAuthorRecords(
             @Query("lookfor") lookfor: String?,

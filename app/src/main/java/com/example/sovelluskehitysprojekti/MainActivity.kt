@@ -11,7 +11,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.w3c.dom.Text
+import retrofit2.Retrofit
+import retrofit2.awaitResponse
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
+
+        getCurrentData()
 
         val mita = findViewById<TextView>(R.id.mita)
 
@@ -48,8 +57,7 @@ class MainActivity : AppCompatActivity() {
         hae = findViewById(R.id.hae)
         search = findViewById(R.id.editTextTextPersonName2)
 
-        search.addTextChangedListener(object: TextWatcher
-        {
+        search.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -71,7 +79,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -85,6 +92,32 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun getCurrentData() {
+        val apiRequests = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiRequests::class.java)
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val response = apiRequests.getRecords().awaitResponse()
+            if (response.isSuccessful) {
+                val data = response.body()!!
+
+                withContext(Dispatchers.Main) {
+                    val status = findViewById<TextView>(R.id.status)
+                    val count = findViewById<TextView>(R.id.resultcount)
+                    val load = findViewById<ProgressBar>(R.id.progressBar3)
+                    status.visibility = View.VISIBLE
+                    count.visibility = View.VISIBLE
+                    load.visibility = View.INVISIBLE
+                    status.text = data.status
+                    count.text = data.resultCount.toString()
+                }
+            }
         }
     }
 }
