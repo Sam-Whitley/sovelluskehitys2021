@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
+                    //Emme pistä tähän mitään :)
                 }
 
             }
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+   /* override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
-    }
+    }*/
 
     private fun getCurrentData() {
         val apiRequests = Retrofit.Builder()
@@ -111,6 +111,10 @@ class MainActivity : AppCompatActivity() {
                     val status = findViewById<TextView>(R.id.status)
                     val count = findViewById<TextView>(R.id.resultcount)
                     val load = findViewById<ProgressBar>(R.id.progressBar3)
+                    val t1 = findViewById<TextView>(R.id.textView)
+                    val t2 = findViewById<TextView>(R.id.textView2)
+                    t1.visibility = View.VISIBLE
+                    t2.visibility = View.VISIBLE
                     status.visibility = View.VISIBLE
                     count.visibility = View.VISIBLE
                     load.visibility = View.INVISIBLE
