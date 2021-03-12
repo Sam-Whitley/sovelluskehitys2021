@@ -15,6 +15,14 @@
         android:layout_margin="5dp"
         android:padding="8dp">
 
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recordTitle"
+            app:srcCompat="@drawable/ic_baseline_library_books_24" />
+
         <TextView
             android:id="@+id/recordTitle"
             android:layout_width="0dp"
@@ -38,7 +46,7 @@
             android:text="resultItemFormat"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
             app:layout_constraintTop_toBottomOf="@+id/recordTitle"
             tools:ignore="MissingConstraints" />
 
@@ -46,11 +54,12 @@
             android:id="@+id/recordAuthor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:padding="1dp"
-            android:text="resultItemFormat"
+            android:text="recordAuthor"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
             app:layout_constraintTop_toBottomOf="@+id/recordResultItemFormat"
             tools:ignore="MissingConstraints" />
 
@@ -79,6 +88,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recordBuilding0"
             tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView5"
+            app:srcCompat="@drawable/ic_baseline_person_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

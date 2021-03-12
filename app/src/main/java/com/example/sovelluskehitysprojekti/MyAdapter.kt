@@ -20,7 +20,7 @@ class MyAdapter(private val records: RecordList) : RecyclerView.Adapter<MyAdapte
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = records.records[position].title
         holder.format.text = records.records[position].formats[0].translated
-        holder.author.text = records.records[position].nonPresenterAuthors[0].name
+        //holder.author.text = records.records[position].nonPresenterAuthors[0].name
         holder.building0.text = records.records[position].buildings[0].translated
        // holder.building1.text = records.records[position].buildings[1].translated
     }
